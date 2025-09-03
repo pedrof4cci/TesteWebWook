@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Chat — n8n Webhook</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Test Chat — n8n Webhook</h1>
+    <p>Simula interface tipo WhatsApp/ChatGPT</p>
+  </header>
+
+  <main>
+    <div id="chat"></div>
+    <form id="chat-form">
+      <input type="text" id="message" placeholder="Escreva uma mensagem..." required />
+      <button type="submit">Enviar</button>
+    </form>
+  </main>
+
+  <aside>
+    <h3>Última resposta (raw)</h3>
+    <pre id="raw-response"></pre>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
