@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Chat — n8n Webhook</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Say hello to Sof.IA</h1>
+  </header>
+
+ <div class="container">
+  <main>
+    <div id="chat"></div>
+    <form id="chat-form">
+      <input type="text" id="message" placeholder="Escreva uma mensagem..." required />
+      <button type="submit">Enviar</button>
+    </form>
+  </main>
+
+  <aside>
+    <h3>Última resposta (raw)</h3>
+    <pre id="raw-response"></pre>
+  </aside>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>

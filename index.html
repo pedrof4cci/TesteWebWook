@@ -3,29 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Chat — n8n Webhook</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Chat Test UI — n8n</title>
+  <style>@import url(style.css);</style>
+  <style>
+    /* Adicione ao seu CSS */
+    body.dark-mode {
+      background: #181818;
+      color: #eee;
+    }
+    .dark-mode .msg.user {
+      background: #222;
+      color: #fff;
+    }
+    .dark-mode .msg.bot {
+      background: #333;
+      color: #fff;
+    }
+    /* Adapte outros elementos conforme necessário */
+  </style>
 </head>
 <body>
+
+<div class="chat-container">
   <header>
-    <h1>Say hello to Sof.IA</h1>
+    <div>
+      <strong>Test Chat — Sof.IA</strong><br>
+      <span style="font-size:12px;color:#666;">Simulação</span>
+    </div>
+    <div>
+      <input id="webhook" value="https://pedrohen.app.n8n.cloud/webhook/7e358e31-9ff3-45ed-ba40-e93c0a2ec920" />
+      <button onclick="copyWebhook()">Copiar</button>
+      <button onclick="clearChat()" style="background:#fdd;">Limpar</button>
+    </div>
   </header>
 
- <div class="container">
-  <main>
-    <div id="chat"></div>
-    <form id="chat-form">
-      <input type="text" id="message" placeholder="Escreva uma mensagem..." required />
-      <button type="submit">Enviar</button>
-    </form>
-  </main>
+  <div id="messages" class="messages"></div>
 
-  <aside>
-    <h3>Última resposta (raw)</h3>
-    <pre id="raw-response"></pre>
-  </aside>
+  <form id="chatForm" class="input-area">
+    <input id="chatInput" placeholder="Escreva uma mensagem..." autocomplete="off" />
+    <button type="submit">Enviar</button>
+  </form>
 </div>
 
-  <script src="script.js"></script>
+<aside>
+  <h3>Última resposta (raw)</h3>
+  <pre id="lastResponse">Nenhuma resposta ainda</pre>
+  <h4>Payload enviado</h4>
+  <pre>{
+  "message": "texto enviado",
+  "metadata": {
+    "channel": "web-chat-ui",
+    "userId": "test-user-123"
+  }
+}</pre>
+</aside>
+
+
+<script src="script.js"></script>
+
 </body>
 </html>

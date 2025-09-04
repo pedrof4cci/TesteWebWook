@@ -1,51 +1,85 @@
-const chat = document.getElementById("chat");
-const form = document.getElementById("chat-form");
-const input = document.getElementById("message");
-const rawResponse = document.getElementById("raw-response");
+const messagesDiv = document.getElementById('messages');
+const input = document.getElementById('chatInput');
+const form = document.getElementById('chatForm');
+const lastResponsePre = document.getElementById('lastResponse');
+const webhookInput = document.getElementById('webhook');
 
-// endpoint do proxy Netlify
-const webhookUrl = "/.netlify/functions/proxy";
 
-function addMessage(text, sender = "user") {
-  const div = document.createElement("div");
-  div.classList.add("message", sender);
-  div.innerText = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+// Define o endpoint igual ao V1
+webhookInput.value = '/.netlify/functions/proxy';
+
+function addMessage(role, text) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.innerHTML = `<div>${text}</div><div class="timestamp">${new Date().toLocaleTimeString()}</div>`;
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const message = input.value.trim();
-  if (!message) return;
+function addTyping() {
+  const div = document.createElement('div');
+  div.className = 'msg bot typing';
+  div.id = 'typingIndicator';
+  div.textContent = '● ● ●';
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
 
-  // adiciona a mensagem do usuário
-  addMessage(message, "user");
-  input.value = "";
+function removeTyping() {
+  const typing = document.getElementById('typingIndicator');
+  if (typing) typing.remove();
+}
+
+async function sendMessage(message) {
+  addMessage('user', message);
+  addTyping();
+
+  // Payload igual ao V1
+  const payload = {
+    message,
+    metadata: {
+      channel: 'web-chat-ui',
+      userId: 'test-user-123'
+    }
+  };
 
   try {
-    const res = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message,
-        metadata: {
-          channel: "web-chat-ui",
-          userId: "test-user-123",
-        },
-      }),
+    const res = await fetch(webhookInput.value, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
-
     const data = await res.json();
 
-    // mostra no chat
-    addMessage(data.reply || JSON.stringify(data), "bot");
+    lastResponsePre.textContent = JSON.stringify(data, null, 2);
 
-    // mostra no painel lateral
-    rawResponse.textContent = JSON.stringify(data, null, 2);
+    let botText = data.reply || JSON.stringify(data);
 
+    removeTyping();
+    addMessage('bot', botText);
   } catch (err) {
-    addMessage("Erro: " + err.message, "bot");
-    rawResponse.textContent = err.message;
+    removeTyping();
+    addMessage('system', 'Erro: ' + err.message);
+    lastResponsePre.textContent = err.toString();
   }
+}
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  sendMessage(text);
 });
+
+toggleThemeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+});
+
+function copyWebhook() {
+  navigator.clipboard.writeText(webhookInput.value);
+}
+function clearChat() {
+  messagesDiv.innerHTML = '';
+  lastResponsePre.textContent = 'Nenhuma resposta ainda';
+}
