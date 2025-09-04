@@ -37,9 +37,6 @@ form.addEventListener("submit", async (e) => {
     });
 
     const data = await res.json();
-    
-    let botResponse = "";
-    addMessage(botResponse, "bot");
 
     // mostra no chat
     addMessage(data.reply || JSON.stringify(data), "bot");
