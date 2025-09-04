@@ -4,7 +4,6 @@ const form = document.getElementById('chatForm');
 const lastResponsePre = document.getElementById('lastResponse');
 const webhookInput = document.getElementById('webhook');
 
-
 // Define o endpoint igual ao V1
 webhookInput.value = '/.netlify/functions/proxy';
 
@@ -53,7 +52,8 @@ async function sendMessage(message) {
 
     lastResponsePre.textContent = JSON.stringify(data, null, 2);
 
-    let botText = data.reply || JSON.stringify(data);
+    // AJUSTE AQUI:
+    let botText = data.reply || data.output || JSON.stringify(data);
 
     removeTyping();
     addMessage('bot', botText);
