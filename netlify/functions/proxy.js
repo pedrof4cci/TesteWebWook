@@ -12,8 +12,7 @@ export async function handler(event, context) {
     });
 
     const data = await response.json();
-    const botMessage = data.message; // pega apenas a mensagem
-    addBotMessage(botMessage);
+  
 
 
     return {
