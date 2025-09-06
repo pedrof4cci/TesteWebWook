@@ -1,4 +1,4 @@
-const messagesDiv = document.getElementById('chatInput');
+const messagesDiv = document.getElementById('message');
 const input = document.getElementById('chatInput');
 const form = document.getElementById('chatForm');
 const lastResponsePre = document.getElementById('lastResponse');
