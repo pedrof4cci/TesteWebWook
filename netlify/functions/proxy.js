@@ -3,7 +3,7 @@ export async function handler(event, context) {
     const body = JSON.parse(event.body);
 
     // URL do seu webhook n8n
-    const n8nWebhook = "https://pedrohen.app.n8n.cloud/webhook/7e358e31-9ff3-45ed-ba40-e93c0a2ec920";
+    const n8nWebhook = "https://pedrohen.app.n8n.cloud/webhook-test/7e358e31-9ff3-45ed-ba40-e93c0a2ec920";
 
     const response = await fetch(n8nWebhook, {
       method: "POST",
