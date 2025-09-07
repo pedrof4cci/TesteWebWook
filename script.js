@@ -1,4 +1,4 @@
-const messagesDiv = document.getElementById('messages');
+const messagesDiv = document.getElementById('message');
 const input = document.getElementById('chatInput');
 const form = document.getElementById('chatForm');
 const lastResponsePre = document.getElementById('lastResponse');
@@ -33,9 +33,9 @@ async function sendMessage(message) {
   addMessage('user', message);
   addTyping();
 
-  // Payload igual ao V1
+  // Payload alterado para chatInput
   const payload = {
-    message,
+    chatInput: message,
     metadata: {
       channel: 'web-chat-ui',
       userId: 'test-user-123'
@@ -52,7 +52,6 @@ async function sendMessage(message) {
 
     lastResponsePre.textContent = JSON.stringify(data, null, 2);
 
-    // AJUSTE AQUI:
     let botText = data.reply || data.output || JSON.stringify(data);
 
     removeTyping();
